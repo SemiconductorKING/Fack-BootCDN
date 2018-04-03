@@ -37,16 +37,16 @@
                     </span>
                 </p>
                 <div class="search-wraper" role="search">
-                    <div class="form-group">
+                    <div class="form-group" id="search0">
                         <input class="form-control search clearable"
-                               id="search0"
                                placeholder="搜索开源库，例如：jquery"
                                autocomplete="off"
-                               autofocus="" tabindex="0"
+                               autofocus
+                               tabindex="0"
                                autocorrect="off"
                                autocapitalize="off"
                                spellcheck="false"
-                               v-on:input="changeValue()">
+                               v-model.trim="packageList">
                         <div class="search-icon">☌</div>
                     </div>
                 </div>
@@ -74,33 +74,29 @@
             <!--<div class="main-left">-->
             <!--<h4 class="package-name">bootstrap</h4>-->
             <!--</div>-->
-            <!--<div class="main-right hidden-xs">-->
+            <!--<div class="main-right">-->
             <!--<p class="package-description">-->
             <!--Bootstrap 是全球最受欢迎的前端组件库，用于开发响应式布局、移动设备优先的 WEB 项目。-->
             <!--</p>-->
             <!--</div>-->
-            <!--<div class="package-extra-info main-right col-md-offset-3 col-xs-12">-->
+            <!--<div class="package-extra-info main-right">-->
             <!--<span>★ 122947</span>-->
             <!--</div>-->
             <!--</div>-->
             <!--</a>-->
-            <div id="search">
-                <!--v-if="getValue"-->
-                <todo-item
-                        v-for="item in arrShow"
-                        v-bind:todo="item">
-                </todo-item>
-            </div>
             <div id="app-1">
                 <!--v-else-->
                 <todo-item
                         v-for="item1 in showList"
-                        v-bind:todo="item1">
+                        :key="item1.id"
+                        :todo1="item1">
                 </todo-item>
+
+                <a href="#common-packages" class="package list-group-item all-packages"
+                   onclick="appPackage1.more" v-show="noMore">所有开源项目列表</a>
             </div>
         </div>
     </div>
-    <div class="container" id="more" style="text-align: center;margin: 20px auto;" onclick="appPackage1.more()">加载所有</div>
 </main>
 <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
 <script src="js/main.js"></script>

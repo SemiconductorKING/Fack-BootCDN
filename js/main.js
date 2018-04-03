@@ -40,27 +40,23 @@
 // });
 
 Vue.component('todo-item', {
-    props: ['todo'],
+    props: ['todo1'],
     template: '<a href="/bootstrap/" class="package list-group-item" target="_blank">\n' +
     '                <div class="row clearfix">\n' +
     '                    <div class="main-left">\n' +
-    '                        <h4 class="package-name">{{ todo[0] }}</h4>\n' +
+    '                        <h4 class="package-name">{{ todo1[0] }}</h4>\n' +
     '                    </div>\n' +
     '                    <div class="main-right">\n' +
     '                        <p class="package-description">\n' +
-    '                            {{ todo[1] }}\n' +
+    '                            {{ todo1[1] }}\n' +
     '                        </p>\n' +
     '                    </div>\n' +
     '                    <div class="package-extra-info main-right">\n' +
-    '                        <span>★ {{ todo[2] }}</span>\n' +
+    '                        <span>★ {{ todo1[2] }}</span>\n' +
     '                    </div>\n' +
     '                </div>\n' +
     '            </a>'
 });
-
-// function more() {
-//     return noMore=false;
-// }
 
 // 节流函数
 var delay = (function () {
@@ -71,7 +67,6 @@ var delay = (function () {
         timer = setTimeout(callback, ms);
     };
 })();
-
 
 var commonPackageList = [
     [
@@ -153,16 +148,25 @@ var commonPackageList = [
 var appPackage1 = new Vue({
     el: '#app-1',
     data: {
-        showList: '',
+        currentList: commonPackageList,
+        showList: commonPackageList,
         allList: '',
         noMore: true
     },
-    methods: {
+    computed: {
         more: function () {
-            commonPackageList = this.allList;
-            return noMore = false;
+            return this.noMore = false;
+        }
+    },
+    watch: {
+        noMore: function () {
+            this.showList = appPackage1.allList;
+            this.currentList = appPackage1.allList;
+            var allBg=document.getElementsByClassName('cdn-header')[0];
+            allBg.style.backgroundImage='url(img/allBg.png)';
         }
     }
+
 });
 
 (function () {
@@ -178,22 +182,63 @@ var appPackage1 = new Vue({
             console.log('statusText:' + request.statusText);
         }
     };
+
+    /*
     //监听input
     appPackage1.$watch('appPackage1.noMore', function () {
-        alert('发生变化了');
+        appPackage1.showList = appPackage1.allList;
     });
     //如果搜索框内有值，先限流，再判断
     if (document.getElementById('search0').value) {
         delay(function () {
             // 判断
-
+            appPackage1.showList = appPackage1.allList;
         }, 300);
     }
 
     //搜索框为空并且没有点击更多，显示常见包列表
     else if (appPackage1.noMore)
-        appPackage1.showList = commonPackageList;
+        appPackage1.$watch('appPackage1.allList', function () {
+            alert('发生变化了');
+        });
+    */
 })();
+
+//搜索框
+var searchPackage = new Vue({
+    el: '#search0',
+    data: {
+        packageList: ''
+    },
+    watch: {
+        packageList: function (val) {
+            if (this.packageList === '') {
+                appPackage1.showList = appPackage1.currentList;
+            }
+            else delay(function () {
+                appPackage1.showList = [];
+                for (i = 0, len = appPackage1.allList.length; i < len; i++) {
+                    if (appPackage1.allList[i][0].indexOf(val) > 0) {
+                        appPackage1.showList.push(appPackage1.allList[i]);
+                    }
+                }
+            }, 300)
+        }
+        /*
+        packageList: function (val) {
+            if (this.packageList !== '') {
+                appPackage1.showList=[];
+                for (i = 0, len = appPackage1.allList.length; i < len; i++) {
+                    if (appPackage1.allList[i][0].indexOf(val) > 0) {
+                        appPackage1.showList.push(appPackage1.allList[i]);
+                    }
+                }
+            }
+            else appPackage1.showList=appPackage1.allList;
+        }
+        */
+    }
+});
 
 
 /*
