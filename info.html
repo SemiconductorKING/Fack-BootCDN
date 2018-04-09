@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BootCDN</title>
+    <link rel="stylesheet" href="CSS/layout.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<div id="app-info">
+    <header class="cdn-header" style="background-image : url(img/bsbg.png)">
+        <nav>
+            <div class="container">
+                <div class="logo">
+                    <a href="#" class="nav-logo text-hide">BootCDN</a>
+                </div>
+                <div class="nav-li clearfix">
+                    <ul class="nav-right">
+                        <li>
+                            <a href="#" onclick="" target="_blank">API</a>
+                        </li>
+                        <li>
+                            <a href="http://blog.bootcdn.cn/" onclick="" target="_blank">博客</a>
+                        </li>
+                        <li>
+                            <a href="#" onclick="">关于</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="search-container container">
+            <div class="search-body">
+                <div class="search-main">
+                    <h1 v-cloak>{{allInfo.name}}</h1>
+                    <p v-cloak>{{allInfo.description}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="package-info">
+            <div class="container">
+                <ul class="list-inline">
+                    <li>
+                        <i class="fa fa-book" title="react 中文文档"></i>
+                        <a target="_blank">中文文档</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-home" title="react 的官网"></i>
+                        <a :href="allInfo.homepage" target="_blank">官网</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-github" title="react 的 Github 源码仓库"></i>
+                        <a :href="url" target="_blank">源码</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-github" title="react 的 README 文件"></i>
+                        <a :href="'http://www.bootcdn.cn/'+allInfo.name+'/readme/'" target="_blank">README</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div class="container protocal-notice">
+        <div class="row">
+            <div class="pull-right">
+                <a href="http://blog.bootcdn.cn/only-https/" target="_blank"
+                   onclick="">拒绝流量劫持，全面使用
+                    HTTPS！</a>
+            </div>
+        </div>
+    </div>
+    <main class="main-body">
+        <div v-cloak class="container" v-for="(item,index) in pkgVersion">
+            <h3 v-cloak>版本：{{item.version}}</h3>
+            <div class="package-version">
+                <div class="package-version-inner">
+                    <ul class="list-group">
+                        <li v-cloak class="list-group-item library js-https" v-for="(items,index) in item.files">
+                            <div class="zero-clipboard">
+                            <span class="btn-clipboard btn-clipboard-code" title="" data-original-title="复制到剪贴板">
+                                <i class="fa fa-code"></i> 复制 &lt;script&gt; 标签
+                            </span>
+                                <span class="btn-clipboard btn-clipboard-link" title="" data-original-title="复制到剪贴板">
+                                <i class="fa fa-link"></i>复制链接
+                            </span>
+                            </div>
+                            <span v-cloak class="library-url">https://cdn.bootcss.com/{{allInfo.name}}/{{item.version}}/{{items}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+<script src="js/info.js"></script>
+</body>
+</html>

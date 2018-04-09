@@ -5,7 +5,7 @@
     <title>BootCDN</title>
     <link rel="stylesheet" href="CSS/layout.css">
 </head>
-
+<body>
 <header class="cdn-header">
     <nav>
         <div class="container">
@@ -27,7 +27,7 @@
             </div>
         </div>
     </nav>
-    <div class="search container">
+    <div class="search-container container">
         <div class="search-body">
             <div class="search-main">
                 <h1>BootCDN</h1>
@@ -46,6 +46,7 @@
                                autocorrect="off"
                                autocapitalize="off"
                                spellcheck="false"
+                               onkeyup="debounce(searchPackages(this.value),3000)"
                                v-model.trim="packageList">
                         <div class="search-icon">☌</div>
                     </div>
@@ -68,22 +69,6 @@
 
     <div class="container">
         <div class="list-group packages" id="common-packages" style="display: block;">
-            <!--<a href="/bootstrap/" class="package list-group-item" target="_blank"-->
-            <!--onclick="_hmt.push(['_trackEvent', 'packages', 'click', 'bootstrap'])">-->
-            <!--<div class="row clearfix">-->
-            <!--<div class="main-left">-->
-            <!--<h4 class="package-name">bootstrap</h4>-->
-            <!--</div>-->
-            <!--<div class="main-right">-->
-            <!--<p class="package-description">-->
-            <!--Bootstrap 是全球最受欢迎的前端组件库，用于开发响应式布局、移动设备优先的 WEB 项目。-->
-            <!--</p>-->
-            <!--</div>-->
-            <!--<div class="package-extra-info main-right">-->
-            <!--<span>★ 122947</span>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</a>-->
             <div id="app-1">
                 <!--v-else-->
                 <todo-item

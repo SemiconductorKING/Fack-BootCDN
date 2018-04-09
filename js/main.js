@@ -1,47 +1,7 @@
-// new Vue({
-//     el: '#app',
-//     data: {
-//         mes: ''
-//     },
-//     template: '<a href="/bootstrap/"\n' +
-//     '               class="package list-group-item"\n' +
-//     '               target="_blank">\n' +
-//     '                <div class="row clearfix">\n' +
-//     '                    <div class="main-left">\n' +
-//     '                        <h4 class="package-name">bootstrap</h4>\n' +
-//     '                    </div>\n' +
-//     '                    <div class="main-right">\n' +
-//     '                        <p class="package-description">\n' +
-//     '                            Bootstrap 是全球最受欢迎的前端组件库，用于开发响应式布局、移动设备优先的 WEB 项目。\n' +
-//     '                        </p>\n' +
-//     '                    </div>\n' +
-//     '                    <div class="package-extra-info main-right">\n' +
-//     '                        <span>★ 122947</span>\n' +
-//     '                    </div>\n' +
-//     '                </div>\n' +
-//     '            </a>',
-//     created: function () {
-//         var $__2 = this;
-//         this.$http({
-//             url: 'https://api.bootcdn.cn/libraries.min.json',
-//             method: 'get',
-//             params: {
-//                 page: 1,
-//                 limit: 10,
-//                 mdrender: 'false'
-//             }
-//         }).then(function (res) {
-//             $__2.content = res.body.data;
-//             console.log($__2.content);
-//         }).catch(function (res) {
-//             console.log('MaiSec.vue: ', res);
-//         });
-//     }
-// });
-
+var data={url:"info.html?name="};
 Vue.component('todo-item', {
     props: ['todo1'],
-    template: '<a href="/bootstrap/" class="package list-group-item" target="_blank">\n' +
+    template: '<a :href=" url+todo1[0] " class="package list-group-item" target="_blank">\n' +
     '                <div class="row clearfix">\n' +
     '                    <div class="main-left">\n' +
     '                        <h4 class="package-name">{{ todo1[0] }}</h4>\n' +
@@ -55,10 +15,13 @@ Vue.component('todo-item', {
     '                        <span>★ {{ todo1[2] }}</span>\n' +
     '                    </div>\n' +
     '                </div>\n' +
-    '            </a>'
+    '            </a>',
+    data:function () {
+        return data;
+    }
 });
 
-// 节流函数
+// 节流函数test1
 var delay = (function () {
     // 定时器重置
     var timer = 0;
@@ -67,6 +30,17 @@ var delay = (function () {
         timer = setTimeout(callback, ms);
     };
 })();
+//test2
+function debounce(method, delay) {
+    var timer = null;
+    return function () {
+        var context = this, args = arguments;
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            method.apply(context, args);
+        }, delay);
+    }
+}
 
 var commonPackageList = [
     [
@@ -162,13 +136,12 @@ var appPackage1 = new Vue({
         noMore: function () {
             this.showList = appPackage1.allList;
             this.currentList = appPackage1.allList;
-            var allBg=document.getElementsByClassName('cdn-header')[0];
-            allBg.style.backgroundImage='url(img/allBg.png)';
+            var allBg = document.getElementsByClassName('cdn-header')[0];
+            allBg.style.backgroundImage = 'url(img/allbg.png)';
         }
     }
 
 });
-
 (function () {
     //Ajax请求所有列表数据，并存于root.data下
     var request = new XMLHttpRequest();
@@ -203,42 +176,60 @@ var appPackage1 = new Vue({
         });
     */
 })();
-
+var n=0;
 //搜索框
-var searchPackage = new Vue({
-    el: '#search0',
-    data: {
-        packageList: ''
-    },
-    watch: {
-        packageList: function (val) {
-            if (this.packageList === '') {
-                appPackage1.showList = appPackage1.currentList;
-            }
-            else delay(function () {
-                appPackage1.showList = [];
-                for (i = 0, len = appPackage1.allList.length; i < len; i++) {
-                    if (appPackage1.allList[i][0].indexOf(val) > 0) {
-                        appPackage1.showList.push(appPackage1.allList[i]);
-                    }
-                }
-            }, 300)
+function searchPackages(val) {
+    {
+        console.log(n++);
+        if (val === '') {
+            appPackage1.showList = appPackage1.currentList;
         }
-        /*
-        packageList: function (val) {
-            if (this.packageList !== '') {
-                appPackage1.showList=[];
-                for (i = 0, len = appPackage1.allList.length; i < len; i++) {
-                    if (appPackage1.allList[i][0].indexOf(val) > 0) {
-                        appPackage1.showList.push(appPackage1.allList[i]);
-                    }
+        else {
+            appPackage1.showList = [];
+            for (var i = 0, len = appPackage1.allList.length; i < len; i++) {
+                if (appPackage1.allList[i][0].indexOf(val) >= 0) {
+                    appPackage1.showList.push(appPackage1.allList[i]);
                 }
             }
-            else appPackage1.showList=appPackage1.allList;
         }
-        */
+        // return console.log(n++);
     }
-});
+}
+//监听输入框的值并渲染包列表（存在问题：输入框如果键入个字符串后再快速按“回退”键（小于函数限流0.3s），把所有字符删光时，搜索到的包列表闪了一下空值状态的所有列表后又回退到删到最后一个字母时的搜索列表状态；但是如果慢一点回退，它又可以正常显示搜索结果列表状态。怎么解决？？？？？）
+// var searchPackage = new Vue({
+//     el: '#search0',
+//     data: {
+//         packageList: ''
+//     },
+//     watch: {
+//         packageList: function (val) {
+//             if (this.packageList === '') {
+//                 appPackage1.showList = appPackage1.currentList;
+//             }
+//             else delay(function () {
+//                 appPackage1.showList = [];
+//                 for (var i = 0, len = appPackage1.allList.length; i < len; i++) {
+//                     if (appPackage1.allList[i][0].indexOf(val) >= 0) {
+//                         appPackage1.showList.push(appPackage1.allList[i]);
+//                     }
+//                 }
+//             }, 300)
+//         }
+//         /*
+//         packageList: function (val) {
+//             if (this.packageList !== '') {
+//                 appPackage1.showList=[];
+//                 for (i = 0, len = appPackage1.allList.length; i < len; i++) {
+//                     if (appPackage1.allList[i][0].indexOf(val) > 0) {
+//                         appPackage1.showList.push(appPackage1.allList[i]);
+//                     }
+//                 }
+//             }
+//             else appPackage1.showList=appPackage1.allList;
+//         }
+//         */
+//     }
+// });
 
 
 /*
@@ -292,18 +283,4 @@ var arr = [];
         }
     }
 })();
-//
-// function changeValue(arr) {
-//     this.arr = arr;
-//     var arrShow = [];
-//     var getValues;
-//     getValues = document.getElementById('search0').value;
-//     for (i = 0, len = arr.length; i < len; i++) {
-//         if (arr[i][0].indexOf(getValues) > 0) {
-//             arrShow.push(arr[i][0]);
-//         }
-//     }
-//     return arrShow;
-// }
-
 */
