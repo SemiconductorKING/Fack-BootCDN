@@ -75,16 +75,16 @@
             <div class="package-version">
                 <div class="package-version-inner">
                     <ul class="list-group">
-                        <li v-cloak class="list-group-item library js-https" v-for="(items,index) in item.files">
-                            <div class="zero-clipboard">
-                            <span class="btn-clipboard btn-clipboard-code" title="" data-original-title="复制到剪贴板">
+                        <li v-cloak class="list-group-item js-https" v-for="(items,index) in item.files">
+                            <div class="clipboard">
+                            <span class="btn-clipboard btn-clipboard-code" title="" data-original-title="复制到剪贴板" @click="doCopy(index,true)">
                                 <i class="fa fa-code"></i> 复制 &lt;script&gt; 标签
                             </span>
-                                <span class="btn-clipboard btn-clipboard-link" title="" data-original-title="复制到剪贴板">
+                                <span class="btn-clipboard btn-clipboard-link" title="" data-original-title="复制到剪贴板" @click="doCopy(index,false)">
                                 <i class="fa fa-link"></i>复制链接
                             </span>
                             </div>
-                            <span v-cloak class="library-url">https://cdn.bootcss.com/{{allInfo.name}}/{{item.version}}/{{items}}</span>
+                            <span v-cloak class="library-url" ref="menuItem">https://cdn.bootcss.com/{{allInfo.name}}/{{item.version}}/{{items}}</span>
                         </li>
                     </ul>
                 </div>
@@ -93,6 +93,7 @@
     </main>
 </div>
 <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+<script src="js/vue-clipboard.min.js"></script>
 <script src="js/info.js"></script>
 </body>
 </html>

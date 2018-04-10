@@ -184,6 +184,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
     height: auto;
     text-align: center;
     border-color: transparent;
+    box-sizing: border-box;
 }
 
 .cdn-header .search-wraper {

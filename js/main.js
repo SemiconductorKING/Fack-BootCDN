@@ -21,7 +21,7 @@ Vue.component('todo-item', {
     }
 });
 
-// 节流函数test1
+// 节流函数debounce test1
 var delay = (function () {
     // 定时器重置
     var timer = 0;
@@ -30,8 +30,8 @@ var delay = (function () {
         timer = setTimeout(callback, ms);
     };
 })();
-//test2
-function debounce(method, delay) {
+//节流函数debounce test2
+function debounce0(method, delay) {
     var timer = null;
     return function () {
         var context = this, args = arguments;
@@ -39,6 +39,18 @@ function debounce(method, delay) {
         timer = setTimeout(function () {
             method.apply(context, args);
         }, delay);
+    }
+}
+//test3
+function debounce (fn, delay) {
+    var timeoutID = null;
+    return function () {
+        clearTimeout(timeoutID);
+        var args = arguments;
+        var that = this;
+        timeoutID = setTimeout(function () {
+            fn.apply(that, args)
+        }, delay)
     }
 }
 
@@ -215,19 +227,6 @@ function searchPackages(val) {
 //                 }
 //             }, 300)
 //         }
-//         /*
-//         packageList: function (val) {
-//             if (this.packageList !== '') {
-//                 appPackage1.showList=[];
-//                 for (i = 0, len = appPackage1.allList.length; i < len; i++) {
-//                     if (appPackage1.allList[i][0].indexOf(val) > 0) {
-//                         appPackage1.showList.push(appPackage1.allList[i]);
-//                     }
-//                 }
-//             }
-//             else appPackage1.showList=appPackage1.allList;
-//         }
-//         */
 //     }
 // });
 
