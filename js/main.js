@@ -41,19 +41,6 @@ function debounce0(method, delay) {
         }, delay);
     }
 }
-//test3
-function debounce (fn, delay) {
-    var timeoutID = null;
-    return function () {
-        clearTimeout(timeoutID);
-        var args = arguments;
-        var that = this;
-        timeoutID = setTimeout(function () {
-            fn.apply(that, args)
-        }, delay)
-    }
-}
-
 var commonPackageList = [
     [
         "bootstrap",
@@ -137,11 +124,20 @@ var appPackage1 = new Vue({
         currentList: commonPackageList,
         showList: commonPackageList,
         allList: '',
-        noMore: true
+        noMore: true,
+        searchIcon:'☌',
+        packageList: ''
     },
     computed: {
         more: function () {
             return this.noMore = false;
+        }
+    },
+    methods:{
+        clearText:function () {
+            var t=document.getElementsByClassName('form-control')[0];
+            t.value='';
+            appPackage1.showList = appPackage1.currentList;
         }
     },
     watch: {
@@ -151,6 +147,23 @@ var appPackage1 = new Vue({
             var allBg = document.getElementsByClassName('cdn-header')[0];
             allBg.style.backgroundImage = 'url(img/allbg.png)';
         }
+        //监听输入框的值并渲染包列表（存在问题：输入框如果键入个字符串后再快速按“回退”键（小于函数限流0.3s），把所有字符删光时，搜索到的包列表闪了一下空值状态的所有列表后又回退到删到最后一个字母时的搜索列表状态；但是如果慢一点回退，它又可以正常显示搜索结果列表状态。怎么解决？？？？？）
+        // ,
+        // packageList: function (val) {
+        //     if (this.packageList === '') {
+        //         appPackage1.searchIcon='☌';
+        //         appPackage1.showList = appPackage1.currentList;
+        //     }
+        //     else delay(function () {
+        //         appPackage1.searchIcon='×';
+        //         appPackage1.showList = [];
+        //         for (var i = 0, len = appPackage1.allList.length; i < len; i++) {
+        //             if (appPackage1.allList[i][0].indexOf(val) >= 0) {
+        //                 appPackage1.showList.push(appPackage1.allList[i]);
+        //             }
+        //         }
+        //     }, 300)
+        // }
     }
 
 });
@@ -167,36 +180,18 @@ var appPackage1 = new Vue({
             console.log('statusText:' + request.statusText);
         }
     };
-
-    /*
-    //监听input
-    appPackage1.$watch('appPackage1.noMore', function () {
-        appPackage1.showList = appPackage1.allList;
-    });
-    //如果搜索框内有值，先限流，再判断
-    if (document.getElementById('search0').value) {
-        delay(function () {
-            // 判断
-            appPackage1.showList = appPackage1.allList;
-        }, 300);
-    }
-
-    //搜索框为空并且没有点击更多，显示常见包列表
-    else if (appPackage1.noMore)
-        appPackage1.$watch('appPackage1.allList', function () {
-            alert('发生变化了');
-        });
-    */
 })();
 var n=0;
 //搜索框
 function searchPackages(val) {
-    {
-        console.log(n++);
+    delay(function (){
+        console.log('搜索执行第'+(n++)+'次\n搜索值：'+val);
         if (val === '') {
+            appPackage1.searchIcon='☌';
             appPackage1.showList = appPackage1.currentList;
         }
         else {
+            appPackage1.searchIcon='×';
             appPackage1.showList = [];
             for (var i = 0, len = appPackage1.allList.length; i < len; i++) {
                 if (appPackage1.allList[i][0].indexOf(val) >= 0) {
@@ -204,82 +199,5 @@ function searchPackages(val) {
                 }
             }
         }
-        // return console.log(n++);
-    }
+    },300)
 }
-//监听输入框的值并渲染包列表（存在问题：输入框如果键入个字符串后再快速按“回退”键（小于函数限流0.3s），把所有字符删光时，搜索到的包列表闪了一下空值状态的所有列表后又回退到删到最后一个字母时的搜索列表状态；但是如果慢一点回退，它又可以正常显示搜索结果列表状态。怎么解决？？？？？）
-// var searchPackage = new Vue({
-//     el: '#search0',
-//     data: {
-//         packageList: ''
-//     },
-//     watch: {
-//         packageList: function (val) {
-//             if (this.packageList === '') {
-//                 appPackage1.showList = appPackage1.currentList;
-//             }
-//             else delay(function () {
-//                 appPackage1.showList = [];
-//                 for (var i = 0, len = appPackage1.allList.length; i < len; i++) {
-//                     if (appPackage1.allList[i][0].indexOf(val) >= 0) {
-//                         appPackage1.showList.push(appPackage1.allList[i]);
-//                     }
-//                 }
-//             }, 300)
-//         }
-//     }
-// });
-
-
-/*
-
-var arr = [];
-
-(function () {
-    var request = new XMLHttpRequest();
-    request.open("GET", "https://api.bootcdn.cn/libraries.min.json");
-    request.send();
-    request.onreadystatechange = function () {
-        if (request.readyState === 4) {
-            if (request.status === 200) {
-                var data = JSON.parse(request.responseText);
-                if (data) {
-                    arr = arr.concat(data);
-                    // 渲染Ajax获得的所有json数组（Test OK）
-                    // var app1 = new Vue({
-                    //     el: '#app-2',
-                    //     data: {
-                    //         packageList: arr
-                    //     }
-                    // });
-
-
-                    // 渲染查询到的数据
-                    // var appSearch = new Vue({
-                    //     el: '#search',
-                    //     data: {
-                    //         packageShow: ''
-                    //     },
-                    //     methods: {
-                    //         getValues: document.getElementById('search0').value,
-                    //         arrShow: (function changeValue(arr) {
-                    //             this.arr = arr;
-                    //             var getValues = [];
-                    //             getValues = document.getElementById('search0').value();
-                    //             for (i = 0, len = arr.length; i < len; i++) {
-                    //                 if (arr[i][0].indexOf(getValues) > 0) {
-                    //                     packageShow.push(arr[i][0]);
-                    //                 }
-                    //             }
-                    //             return arrShow;
-                    //         })
-                    //     }
-                    // });
-                }
-            } else {
-                alert("发生错误：" + request.status);
-            }
-        }
-    }
-})();
-*/

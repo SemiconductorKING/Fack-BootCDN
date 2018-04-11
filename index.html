@@ -6,83 +6,86 @@
     <link rel="stylesheet" href="CSS/layout.css">
 </head>
 <body>
-<header class="cdn-header">
-    <nav>
-        <div class="container">
-            <div class="logo">
-                <a href="#" class="nav-logo text-hide">BootCDN</a>
+<div id="app-1">
+    <header class="cdn-header">
+        <nav>
+            <div class="container">
+                <div class="logo">
+                    <a href="#" class="nav-logo text-hide">BootCDN</a>
+                </div>
+                <div class="nav-li clearfix">
+                    <ul class="nav-right">
+                        <li>
+                            <a href="#" onclick="" target="_blank">API</a>
+                        </li>
+                        <li>
+                            <a href="http://blog.bootcdn.cn/" onclick="" target="_blank">博客</a>
+                        </li>
+                        <li>
+                            <a href="#" onclick="">关于</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="nav-li clearfix">
-                <ul class="nav-right">
-                    <li>
-                        <a href="#" onclick="" target="_blank">API</a>
-                    </li>
-                    <li>
-                        <a href="http://blog.bootcdn.cn/" onclick="" target="_blank">博客</a>
-                    </li>
-                    <li>
-                        <a href="#" onclick="">关于</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div class="search-container container">
-        <div class="search-body">
-            <div class="search-main">
-                <h1>BootCDN</h1>
-                <p>稳定、快速、免费的前端开源项目 CDN 加速服务<br>
-                    <span class="package-amount">
+        </nav>
+        <div class="search-container container">
+            <div class="search-body">
+                <div class="search-main">
+                    <h1>BootCDN</h1>
+                    <p>稳定、快速、免费的前端开源项目 CDN 加速服务<br>
+                        <span class="package-amount">
                         共收录了 <strong>3348</strong> 个前端开源项目
                     </span>
-                </p>
-                <div class="search-wraper" role="search">
-                    <div class="form-group" id="search0">
-                        <input class="form-control search clearable"
-                               placeholder="搜索开源库，例如：jquery"
-                               autocomplete="off"
-                               autofocus
-                               tabindex="0"
-                               autocorrect="off"
-                               autocapitalize="off"
-                               spellcheck="false"
-                               onkeyup="debounce(searchPackages(this.value),3000)"
-                               v-model.trim="packageList">
-                        <div class="search-icon">☌</div>
+                    </p>
+                    <div class="search-wraper" role="search">
+                        <div class="form-group" id="search0">
+                            <input class="form-control search clearable"
+                                   placeholder="搜索开源库，例如：jquery"
+                                   autocomplete="off"
+                                   autofocus
+                                   tabindex="0"
+                                   autocorrect="off"
+                                   autocapitalize="off"
+                                   spellcheck="false"
+                                   onkeyup="searchPackages(this.value)">
+                                   <!--v-model.trim="packageList">-->
+
+                            <div class="search-icon" @click="clearText" v-cloak>{{searchIcon}}</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</header>
-<div class="container protocal-notice">
-    <div class="row">
-        <div class="pull-right">
-            <a href="http://blog.bootcdn.cn/only-https/" target="_blank"
-               onclick="">拒绝流量劫持，全面使用
-                HTTPS！</a>
-        </div>
-    </div>
-</div>
-<main class="main-body">
-
-
-    <div class="container">
-        <div class="list-group packages" id="common-packages" style="display: block;">
-            <div id="app-1">
-                <!--v-else-->
-                <todo-item
-                        v-for="item1 in showList"
-                        :key="item1.id"
-                        :todo1="item1">
-                </todo-item>
-
-                <a href="#common-packages" class="package list-group-item all-packages"
-                   onclick="appPackage1.more" v-show="noMore">所有开源项目列表</a>
+    </header>
+    <div class="container protocal-notice">
+        <div class="row">
+            <div class="pull-right">
+                <a href="http://blog.bootcdn.cn/only-https/" target="_blank"
+                   onclick="">拒绝流量劫持，全面使用
+                    HTTPS！</a>
             </div>
         </div>
     </div>
-</main>
+    <main class="main-body">
+
+
+        <div class="container">
+            <div class="list-group packages" id="common-packages" style="display: block;">
+                <div>
+                    <!--v-else-->
+                    <todo-item
+                            v-for="item1 in showList"
+                            :key="item1.id"
+                            :todo1="item1">
+                    </todo-item>
+
+                    <a href="#common-packages" class="package list-group-item all-packages"
+                       onclick="appPackage1.more" v-show="noMore">所有开源项目列表</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
 <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
 <script src="js/main.js"></script>
 </body>
